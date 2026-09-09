@@ -3,10 +3,15 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import pandas as pd
+from pathlib import Path
 
 app = FastAPI(title="FLOODWISE AI API")
 
-model = joblib.load("floodwise_model.pkl")
+# Load model from the project's models directory
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "models" / "floodwise_model.pkl"
+
+model = joblib.load(MODEL_PATH)
 
 
 class FloodInput(BaseModel):
@@ -15,6 +20,16 @@ class FloodInput(BaseModel):
     elevation: float
     previous_water: float
     blockage: float
+
+
+def estimate_water_depth(rainfall, drainage, elevation):
+    depth = (
+        (rainfall * 0.08)
+        - (drainage * 0.02)
+        - (elevation * 0.03)
+    )
+
+    return round(max(depth, 0), 2)
 
 
 @app.get("/")
@@ -45,8 +60,15 @@ def predict_flood(data: FloodInput):
     else:
         risk = "LOW RISK"
 
+    water_depth = estimate_water_depth(
+        data.rainfall,
+        data.drainage,
+        data.elevation
+    )
+
     return {
         "flood_probability": round(probability, 2),
         "prediction": "FLOOD" if prediction == 1 else "NO FLOOD",
-        "risk": risk
+        "risk": risk,
+        "estimated_water_depth_m": water_depth
     }
