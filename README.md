@@ -1,258 +1,492 @@
-# 🌊 FLOODWISE AI
+# FLOODWISE AI
 
 ### AI-Powered Urban Flood Nowcasting & Risk Intelligence System
 
-> **“See the flood before the street does.”**
+> **See the flood before the street does.**
 
-FLOODWISE AI is an AI-powered prototype designed to predict short-term urban flood risk using rainfall, drainage capacity, elevation, previous water level, and drainage blockage information.
+FLOODWISE AI is an AI-powered prototype for short-term urban flood risk prediction using rainfall, drainage capacity, elevation, previous water level, and drainage blockage conditions.
 
-The system focuses on **0–3 hour flood nowcasting**, estimated water depth, risk classification, safer-location identification, drainage blockage simulation, and GIS-based visualization.
+The system focuses on **0–3 hour flood nowcasting**, flood-risk classification, prototype water-depth estimation, drainage blockage simulation, safer-location identification, weather-data integration, and GIS-based visualization.
 
----
-
-## 🚨 Problem
-
-Urban flooding can develop rapidly because of:
-
-- Intense rainfall
-- Poor drainage capacity
-- Drainage blockage
-- Low-elevation areas
-- Accumulated water from previous hours
-
-Traditional flood monitoring may not provide sufficiently localized, short-term risk information for individual urban areas.
-
-**FLOODWISE AI aims to provide an early, understandable risk signal before flooding becomes severe.**
+**Project Status:** Prototype / Active Development
 
 ---
 
-## ✨ Key Features
+## Overview
 
-### 🌧️ 1. Flood Risk Prediction
+Urban flooding can develop rapidly due to intense rainfall, insufficient drainage capacity, drainage blockage, low-elevation areas, and accumulated surface water.
 
-Predicts:
+FLOODWISE AI aims to convert environmental and infrastructure-related information into an understandable short-term flood-risk signal that can support future urban flood monitoring and decision-support systems.
 
-- Flood probability
-- Flood / No Flood classification
-- Low / Medium / High risk level
-- Estimated water depth
+The current implementation is a **research and portfolio prototype**. It is not an operational flood-warning system.
 
-### ⏱️ 2. 0–3 Hour Flood Nowcasting
+---
 
-Provides a short-term forecast for:
+## Key Capabilities
 
-- Current conditions
-- +1 hour
-- +2 hours
-- +3 hours
+### Flood Risk Prediction
 
-The dashboard displays predicted flood probability, risk level, rainfall and estimated water depth.
+The system predicts:
 
-### 🕳️ 3. Drainage Blockage Simulation
+* Flood probability
+* Flood / No Flood classification
+* Low / Medium / High risk level
+* Prototype estimated water depth
 
-Users can change drainage blockage conditions and observe how the predicted flood risk changes.
+### 0–3 Hour Nowcasting
 
-### 🗺️ 4. GIS-Based Flood Visualization
+The system evaluates flood risk for:
 
-The system is designed to visualize flood-prone and safer areas using geographic coordinates and interactive maps.
+* Current conditions
+* +1 hour
+* +2 hours
+* +3 hours
 
-### 📍 5. Safer Location Identification
+Each forecast step provides rainfall, predicted flood probability, risk classification, and estimated water depth.
+
+### Drainage Blockage Simulation
+
+Users can modify drainage blockage conditions and observe how changes in drainage conditions affect the predicted flood risk.
+
+### GIS-Based Visualization
+
+The system is designed to visualize geographic flood-risk information using coordinates and interactive maps.
+
+### Safer Location Identification
 
 The prototype identifies locations with comparatively lower predicted flood probability and water depth.
 
-> Current prototype identifies safer points rather than performing real road-network navigation.
+> **Current limitation:** the prototype identifies safer geographic points rather than performing real road-network navigation.
 
-### 🤖 6. Explainable AI
+### Explainable Environmental Factors
 
-Important environmental factors used by the model include:
+The model uses the following environmental and infrastructure-related features:
 
-- Rainfall
-- Drainage capacity
-- Elevation
-- Previous water level
-- Drainage blockage
+* Rainfall
+* Drainage capacity
+* Elevation
+* Previous water level
+* Drainage blockage
 
-### 🌦️ 7. Weather Data Integration
+### Weather Data Integration
 
-The prototype supports integration with hourly weather forecast data for short-term rainfall-based prediction.
+The prototype supports integration with hourly weather forecast data for rainfall-based short-term prediction.
 
 ---
 
-## 🧠 Machine Learning
+## Machine Learning
 
-The current prototype uses a **Random Forest Classifier**.
+The current prototype uses a **Random Forest Classifier** implemented with Scikit-learn.
 
 ### Input Features
 
+| Feature              | Description                            |
+| -------------------- | -------------------------------------- |
+| Rainfall             | Rainfall intensity in mm               |
+| Drainage Capacity    | Relative drainage capacity             |
+| Elevation            | Ground elevation                       |
+| Previous Water Level | Previously accumulated water level     |
+| Drainage Blockage    | Estimated drainage blockage percentage |
+
+### Model Outputs
+
 ```text
-Rainfall
-Drainage Capacity
-Elevation
-Previous Water Level
-Drainage Blockage
-Output
 Flood Probability
 Flood / No Flood
-Risk Level
+Risk Classification
 Estimated Water Depth
+```
 
-The current training dataset is synthetic/prototype data created for development and demonstration.
+### Model Architecture
 
-Therefore, the current model should not be interpreted as a scientifically validated real-world flood prediction model.
+```text
+Environmental & Infrastructure Data
+                |
+                v
+        Feature Preparation
+                |
+                v
+        Random Forest Model
+                |
+                v
+        Flood Risk Prediction
+                |
+        +-------+-------+
+        |       |       |
+        v       v       v
+     Risk    Nowcast  Water Depth
+   Analysis    0–3h    Estimation
+        |       |       |
+        +-------+-------+
+                |
+                v
+        GIS / Dashboard Layer
+```
 
-Future versions will require real historical flood observations, high-resolution rainfall data, drainage-network information, DEM/elevation data, and hydrological/hydraulic validation.
+---
 
-🏗️ System Architecture
+## Dataset & Validation
+
+The current training dataset is **synthetic/prototype data generated for development and demonstration purposes**.
+
+Therefore:
+
+* The current model is not a scientifically validated flood forecasting model.
+* Reported model performance should not be interpreted as real-world forecasting accuracy.
+* Prototype water-depth values are estimation outputs, not measured water levels.
+
+Future model development requires validated real-world datasets including:
+
+* Historical flood observations
+* High-resolution rainfall measurements
+* Digital Elevation Models
+* Drainage-network information
+* Water-level observations
+* Land-use and surface characteristics
+* Historical weather conditions
+
+Hydrological and hydraulic validation will also be required before any operational deployment.
+
+---
+
+## System Workflow
+
+```text
 Weather / Environmental Data
-            ↓
+            |
+            v
       Data Processing
-            ↓
+            |
+            v
      Feature Engineering
-            ↓
-      Machine Learning Model
-            ↓
-   ┌────────┼─────────┐
-   ↓        ↓         ↓
-Flood    0–3h      Safer
-Risk    Nowcast    Locations
-   ↓        ↓         ↓
-   └────────┼─────────┘
-            ↓
-       GIS Dashboard
-            ↓
-      User / Authority
-🛠️ Technology Stack
-Machine Learning
-Python
-Pandas
-NumPy
-Scikit-learn
-Random Forest
-Data & Visualization
-Matplotlib
-Folium
-Interactive maps
-Dashboard
-Gradio
-Backend
-FastAPI
-Pydantic
-Data Source Integration
-Open-Meteo API
-Development
-Google Colab
-Git
-GitHub
-📂 Project Structure
+            |
+            v
+      Machine Learning
+            |
+            v
+      Flood Risk Engine
+            |
+      +-----+-----+------+
+      |           |      |
+      v           v      v
+   Prediction   0–3h   Location
+               Nowcast  Analysis
+      |           |      |
+      +-----------+------+
+                  |
+                  v
+          Dashboard / GIS
+                  |
+                  v
+        User / Authority
+```
+
+---
+
+## Technology Stack
+
+### Machine Learning
+
+* Python
+* Pandas
+* NumPy
+* Scikit-learn
+* Random Forest
+* Joblib
+
+### Data & Visualization
+
+* Matplotlib
+* Folium
+* Pandas
+
+### Dashboard
+
+* Gradio
+
+### Backend
+
+* FastAPI
+* Pydantic
+* Uvicorn
+
+### Weather Data
+
+* Open-Meteo API
+
+### Development & Collaboration
+
+* Google Colab
+* Git
+* GitHub
+
+---
+
+## Project Structure
+
+```text
 FLOODWISE-AI/
-│
-├── data/
-│   ├── raw/
-│   └── processed/
-│
-├── notebooks/
-│   └── FLOODWISE_AI_Main.ipynb
-│
-├── src/
-│
-├── models/
-│   └── floodwise_model.pkl
 │
 ├── backend/
 │   └── backend_api.py
 │
+├── data/
+│   ├── raw/
+│   └── processed/
+│       └── floodwise_dataset.csv
+│
+├── models/
+│   └── floodwise_model.pkl
+│
+├── notebooks/
+│   └── FLOODWISE_AI_Main.ipynb
+│
 ├── frontend/
-│
 ├── gis/
-│
+├── src/
 ├── docs/
 │
 ├── README.md
 ├── requirements.txt
 └── .gitignore
-🚀 Prototype Workflow
-User Input
-   ↓
+```
+
+---
+
+## Prototype Workflow
+
+```text
+User / Weather Input
+        |
+        v
 Rainfall + Drainage + Elevation
 + Previous Water + Blockage
-   ↓
-Random Forest Model
-   ↓
+        |
+        v
+Random Forest Classifier
+        |
+        v
 Flood Probability
-   ↓
+        |
+        v
 Risk Classification
-   ↓
-Estimated Water Depth
-   ↓
-Dashboard Visualization
-🎯 Current Prototype
+        |
+        +-------------------+
+        |                   |
+        v                   v
+Water Depth          0–3 Hour Nowcast
+        |                   |
+        +---------+---------+
+                  |
+                  v
+          Dashboard Output
+```
 
-The current version demonstrates:
+---
 
-AI-based flood risk prediction
-0–3 hour nowcasting
-Water-depth estimation prototype
-Drainage blockage simulation
-Safer-location identification
-Interactive GIS visualization
-Weather-data integration
-Gradio-based dashboard
-FastAPI backend prototype
-🔬 Future Development
+## Prototype Features
 
-The long-term goal is to transform FLOODWISE AI into a real-world urban flood intelligence platform.
+The current prototype demonstrates:
+
+* AI-based flood-risk prediction
+* 0–3 hour flood nowcasting
+* Prototype water-depth estimation
+* Drainage blockage simulation
+* Safer-location identification
+* Interactive GIS visualization
+* Weather-data integration
+* Gradio dashboard
+* FastAPI backend prototype
+
+---
+
+## Live Prototype
+
+The current interactive prototype is available through a temporary Gradio deployment.
+
+**Demo:** [Launch FLOODWISE AI Prototype](https://5a0bb3df11907f74dd.gradio.live)
+
+> The current Gradio deployment is temporary. A permanent production web application is under development.
+
+---
+
+## Backend API
+
+The project includes a FastAPI backend prototype.
+
+### Health Check
+
+```http
+GET /
+```
+
+### Flood Prediction
+
+```http
+POST /predict
+```
+
+Example request:
+
+```json
+{
+  "rainfall": 80,
+  "drainage": 45,
+  "elevation": 4,
+  "previous_water": 1.0,
+  "blockage": 60
+}
+```
+
+Example response:
+
+```json
+{
+  "flood_probability": 82.5,
+  "prediction": "FLOOD",
+  "risk": "HIGH RISK",
+  "estimated_water_depth_m": 5.91
+}
+```
+
+> Example values are illustrative and should not be interpreted as validated real-world measurements.
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/sdey19-cyber/FLOODWISE-AI.git
+cd FLOODWISE-AI
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Running the Backend
+
+From the project root:
+
+```bash
+uvicorn backend.backend_api:app --reload
+```
+
+The API will be available locally at:
+
+```text
+http://127.0.0.1:8000
+```
+
+FastAPI interactive documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## Running the Notebook
+
+The main machine-learning development notebook is:
+
+```text
+notebooks/FLOODWISE_AI_Main.ipynb
+```
+
+The notebook contains the prototype data generation, model training, prediction logic, nowcasting workflow, and experimentation.
+
+---
+
+## Limitations
+
+The current version has several important limitations:
+
+1. Training data is synthetic.
+2. Flood labels are prototype-generated rather than derived from verified flood observations.
+3. Water-depth estimation is a prototype mathematical estimation.
+4. Safer-location analysis does not yet perform real road-network routing.
+5. Weather integration is not yet a fully operational real-time forecasting pipeline.
+6. The current model has not undergone hydrological or hydraulic validation.
+7. The current deployment is intended for demonstration and research purposes.
+
+---
+
+## Future Development
+
+The long-term goal is to develop FLOODWISE AI into a real-world urban flood intelligence platform.
 
 Planned improvements include:
 
-Real-time rainfall data
-Real historical flood datasets
-High-resolution GIS layers
-Digital Elevation Models
-Drainage-network modelling
-Hydrological and hydraulic modelling
-Real road-network based safe-route navigation
-Flood heatmaps
-Real-time alerts
-Bengali + English interface
-Mobile-responsive web application
-Explainable AI dashboard
-Authority/admin dashboard
-Live IoT water-level sensor integration
-⚠️ Important Disclaimer
+* Real-time rainfall ingestion
+* Validated historical flood datasets
+* High-resolution GIS layers
+* Digital Elevation Model integration
+* Drainage-network modelling
+* Hydrological and hydraulic modelling
+* Real road-network safe-route navigation
+* Flood-risk heatmaps
+* Real-time alerts
+* Explainable AI dashboard
+* Bengali and English interface
+* Mobile-responsive web application
+* IoT water-level sensor integration
+* Authority / emergency-response dashboard
+* Production-grade cloud deployment
+* Model monitoring and continuous validation
 
-FLOODWISE AI is currently a prototype research and portfolio project.
+---
 
-The current machine-learning model uses synthetic/prototype data and has not been validated for operational flood forecasting.
+## Project Origin
 
-Predicted water depth and flood probability should therefore not be used as an emergency decision-making system.
+FLOODWISE AI was initially developed around the **Smart India Hackathon problem statement SIH26085 – Urban Flood Nowcasting System (Drainage and Rainfall Coupling)**.
 
-Real-world deployment would require validated datasets, calibrated hydrological/hydraulic models, reliable sensor/weather feeds, extensive testing, and domain-expert validation.
+The project is currently being developed further as an **independent technical portfolio and research prototype**.
 
-🌍 Project Origin
+---
 
-FLOODWISE AI was initially developed around the Smart India Hackathon problem statement SIH26085 – Urban Flood Nowcasting System (Drainage and Rainfall Coupling).
+## Developer
 
-The project is currently being developed further as an independent technical portfolio project.
-
-👩‍💻 Developer
-
-Suparna Dey
+**Suparna Dey**
 
 B.Tech CSE — Cyber Security
 
-Interested in:
+Areas of interest:
 
-Artificial Intelligence & Machine Learning
-Data Science
-Cyber Security
-Intelligent Systems
-AI Engineering
-⭐ Vision
+* Artificial Intelligence & Machine Learning
+* AI Engineering
+* Data Science
+* Cyber Security
+* Intelligent Systems
 
-Build an intelligent urban flood early-warning system that turns environmental data into understandable, actionable risk information.
+---
 
-Project Status
+## Vision
 
-🟡 Prototype / Active Development
+The long-term vision of FLOODWISE AI is to build an intelligent urban flood early-warning and decision-support platform that transforms environmental, infrastructure, and geographic data into understandable and actionable flood-risk intelligence.
 
-More features and real-world data integrations are planned.
+---
+
+## Disclaimer
+
+FLOODWISE AI is currently a **prototype research and portfolio project**.
+
+The current machine-learning model uses synthetic/prototype data and has not been validated for operational flood forecasting.
+
+Predicted flood probability and water-depth values must **not** be used as an emergency decision-making system.
+
+Real-world deployment would require validated datasets, calibrated hydrological and hydraulic models, reliable weather and sensor feeds, extensive testing, and domain-expert validation.
+
+---
+
+## Project Status
+
+**Prototype / Active Development**
+
+The core machine-learning prototype, dashboard, backend API, weather integration, and GitHub project structure are currently implemented. Further development is focused on real-world data integration, GIS intelligence, explainability, routing, and production web deployment.
